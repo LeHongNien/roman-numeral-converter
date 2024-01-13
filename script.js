@@ -4,15 +4,13 @@ const convertBtn = document.getElementById('convert-btn');
 convertBtn.addEventListener('click', toRoman);
 
 
-function toRoman(num) {
+function toRoman() {
     let textInput = document.getElementById('number').value;
     const textOutput = document.getElementById('output');
 
-    const arabicNumeral = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
-    const romanNumeral = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
+    const romanArabicTable = {M:1000, CM:900, D:500, CD:400, C:100, XC:90, L:50, XL:40, X:10, IX:9, V:5, IV:4, I:1};
     
     let romanNum = '';
-
     if (textInput === '') {
         textOutput.innerHTML = `Please enter a valid number`;
     } else if (textInput < 0) {
@@ -20,12 +18,14 @@ function toRoman(num) {
     } else if (textInput > 3999) {
         textOutput.innerHTML = `Please enter a number less than or equal to 3999`;
     } else {
-        for (let i = 0; i < arabicNumeral.length; i++) {
-            while (arabicNumeral[i] <= num) {
-              romanNum += romanNumeral[i];
-              num -= arabicNumeral[i]; 
+        for (const key in romanArabicTable) {
+            const arabicValue = romanArabicTable[key];
+
+            while (arabicValue <= textInput) {
+                textInput -= arabicValue;
+                romanNum += key;
             }
-        } 
-        return romanNum;
+        }
+        textOutput.innerHTML = `${romanNum}`;
     }
 }
